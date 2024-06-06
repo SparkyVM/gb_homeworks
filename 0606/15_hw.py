@@ -8,6 +8,7 @@
 
 import csv
 import logging
+import argparse
 
 logger = logging.getLogger(__name__)
 my_format = '{levelname:<10} {asctime:<20} {funcName} {msg}'
@@ -29,7 +30,6 @@ class Student:
                 object.__setattr__(self, name, value)                 
             else:
                 logger.error(msg='ФИО должно состоять только из букв и начинаться с заглавной буквы')
-                #raise ValueError('ФИО должно состоять только из букв и начинаться с заглавной буквы') 
         else:
             object.__setattr__(self, name, value)        
 
@@ -38,6 +38,7 @@ class Student:
         for subj in self.subjects:
             if self.subjects[subj]:
                 res.append(subj)
+        logger.info(msg=f'Студент: {self.name}\tПредметы: {str(res)[1:-1].replace("'",'')}')
         return f'Студент: {self.name}\nПредметы: {str(res)[1:-1].replace("'",'')}'
 
     def load_subjects(self, subjects_file) -> dict:
@@ -50,13 +51,14 @@ class Student:
                     return_dict[subject] = None
         return return_dict
 
-    def add_grade(self, subject, grade):
+    def add_grade(self, in_str):
         # Добавляет оценку по заданному предмету. Убеждается, что оценка является целым числом от 2 до 5.
+        subject, grade = in_str.split()
         if subject in self.subjects:
-            if 2 <= grade <= 5 :
+            if 2 <= int(grade) <= 5 :
                 if not self.subjects[subject]:
                     self.subjects[subject] = {'grade': [], 'test': [] }
-                self.subjects[subject]['grade'].append(grade)
+                self.subjects[subject]['grade'].append(int(grade))
             else:
                 logger.error(msg='Оценка должна быть целым числом от 2 до 5')
         else:
@@ -77,7 +79,7 @@ class Student:
     def get_average_test_score(self, subject): 
         # Возвращает средний балл по тестам для заданного предмета
         if subject in self.subjects:
-            return sum(self.subjects[subject]['test']) / len(self.subjects[subject]['test'])
+            logger.info(msg=f'Средний результат по тестам по {subject}: {sum(self.subjects[subject]["test"]) / len(self.subjects[subject]["test"])}')
         else:
             logger.error(msg=f'Предмет {subject} не найден')
 
@@ -89,20 +91,35 @@ class Student:
             if self.subjects[subj]:
                 res += sum(self.subjects[subj]['grade'])
                 cnt += len(self.subjects[subj]['grade'])
-        return (res/cnt if cnt !=0 else 0)
+        logger.info(msg=f'Средний балл: {(res/cnt if cnt !=0 else 0)}')
 
-student = Student("Иван И1ванов", "subjects.csv")
 
-student.add_grade("Математика", 4)
-student.add_test_score("Математика", 85)
+if __name__ == '__main__':
+    student = Student("Иван Иванов", "0606\\subjects.csv")
+    print(student)
+    parser = argparse.ArgumentParser(description='Info about student...')
+    parser.add_argument('string', metavar='subject', type=str, nargs='*', help='input some string')
+    #parser.add_argument('numbers', metavar='N', type=str, nargs='*', help='input some string')
+    args = parser.parse_args()
+    student.add_grade(*args.string )
+    print(student)
+    average_grade = student.get_average_grade()
+    print(f"Средний балл: {average_grade}")
+    # python .\\15_hw.py 'Математика', '4'
 
-student.add_grade("История", 5)
-student.add_test_score("История", 92)
+'''
+    student = Student("Иван Иванов", "subjects.csv")
 
-average_grade = student.get_average_grade()
-print(f"Средний балл: {average_grade}")
+    student.add_grade("Математика", 4)
+    student.add_test_score("Математика", 85)
 
-average_test_score = student.get_average_test_score("Математика")
-print(f"Средний результат по тестам по математике: {average_test_score}")
+    student.add_grade("История", 5)
+    student.add_test_score("История", 92)
 
-print(student)
+    average_grade = student.get_average_grade()
+    #print(f"Средний балл: {average_grade}")
+
+    average_test_score = student.get_average_test_score("Математика")
+    #print(f"c математике: {average_test_score}")
+
+'''
