@@ -105,7 +105,7 @@ if __name__ == '__main__':
     print(student)
     average_grade = student.get_average_grade()
     print(f"Средний балл: {average_grade}")
-    # python .\\15_hw.py 'Математика', '4'
+    # python .\\15_hw.py 'Математика 4'
 
 '''
     student = Student("Иван Иванов", "subjects.csv")

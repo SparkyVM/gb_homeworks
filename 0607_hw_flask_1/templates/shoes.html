@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ super() }} - {{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h1 class="col-12 col-md-6 display-2">Обувь</h1>
+    <img src="/static/image/s_intro.jpg" class="col-12 col-md-620img-fluid rounded-circle" alt="Обувь">
+    <li class="nav-item"><a href="/sneakers/"
+    class="nav-link">Кроссовки</a></li>
+    <li class="nav-item"><a href="/timber/"
+    class="nav-link">Ботинки</a></li>
+</div>
+{% endblock %}
