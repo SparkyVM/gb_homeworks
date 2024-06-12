@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ super() }} - {{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="form_auth_block">
+    <div class="form_auth_block_content">
+      <p class="form_auth_block_head_text">Вход выполнен</p>
+        <p class="form_auth_block_head_text">Приветствуем, {{ username }} !</p>
+      <form class="form_auth_style" action="#" method="post">
+        <button class="form_auth_button" type="submit" name="form_auth_submit">Выйти</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

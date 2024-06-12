@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ super() }} - {{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="form_auth_block">
+    <div class="form_auth_block_content">
+      <p class="form_auth_block_head_text">Страница авторизации</p>
+      <form class="form_auth_style" action="#" method="post">
+        <label>Введите Ваше имя</label>
+        <input type="text" name="auth_name" placeholder="Введите Ваше имя" required >
+        <label>Введите Ваш email</label>
+        <input type="email" name="auth_email" placeholder="Введите Ваш email" required >
+        <button class="form_auth_button" type="submit" name="form_auth_submit">Войти</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
